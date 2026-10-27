@@ -17,9 +17,9 @@
     <!-- 頂部資訊欄 -->
     <div class="top-bar">
         <div class="container d-flex justify-content-end align-items-center gap-4">
-            <span class="d-flex align-items-center">
+            <a href="contact.php" class="d-flex align-items-center text-decoration-none text-muted">
                 <i class="bi bi-geo-alt-fill icon-green"></i> 客服部地址
-            </span>
+            </a>
             <span class="d-flex align-items-center">
                 <i class="bi bi-telephone-fill icon-green"></i> 37047358
             </span>
@@ -127,7 +127,7 @@ if ($current_page == '' || $current_page == 'terminalhk_project') {
         
         <!-- 聯絡我們 (假設檔案為 contact.php) -->
         <li class="nav-item">
-            <a class="nav-link <?php echo ($current_page == 'contact.php') ? 'active' : ''; ?>" href="#">聯絡我們</a>
+            <a class="nav-link <?php echo ($current_page == 'contact.php') ? 'active' : ''; ?>" href="contact.php">聯絡我們</a>
         </li>
     </ul>
 </div>

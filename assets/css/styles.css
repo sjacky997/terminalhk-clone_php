@@ -409,3 +409,48 @@ body {
 .faq-content a {
     color: #4a90e2;
 }
+
+/* ========================================= */
+/* --- 聯絡我們頁面專用樣式 --- */
+/* ========================================= */
+
+/* 左側選單 */
+.contact-menu li {
+    margin-bottom: 20px;
+}
+.contact-menu li a {
+    font-size: 18px;
+    color: #333;
+    display: inline-block;
+    padding-bottom: 5px;
+    border-bottom: 1px solid transparent;
+    transition: all 0.3s;
+}
+.contact-menu li a:hover,
+.contact-menu li a.active {
+    color: #4a90e2; /* 啟用狀態與懸停的藍色 */
+    border-bottom: 1px solid #e0e0e0;
+    width: 100%; /* 讓底線撐滿 */
+}
+
+/* 表單焦點顏色優化 */
+.form-control:focus {
+    border-color: #4a90e2;
+    box-shadow: 0 0 0 0.2rem rgba(74, 144, 226, 0.25);
+}
+
+/* 提交按鈕顏色 (與網站主色調一致) */
+.btn-primary {
+    background-color: #5b9bd5;
+    border-color: #5b9bd5;
+}
+.btn-primary:hover {
+    background-color: #4a90e2;
+    border-color: #4a90e2;
+}
+
+/* 調整表單 Label 的垂直對齊 (避免跟 Input 對不齊) */
+.col-form-label {
+    padding-top: calc(0.375rem + 1px);
+    padding-bottom: calc(0.375rem + 1px);
+}
