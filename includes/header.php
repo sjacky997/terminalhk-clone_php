@@ -116,8 +116,8 @@ if ($current_page == '' || $current_page == 'terminalhk_project') {
         </li>
         
         <!-- 砌機組合 (假設檔案為 build.php) -->
-        <li class="nav-item">
-            <a class="nav-link <?php echo ($current_page == 'build.php') ? 'active' : ''; ?>" href="#">砌機組合</a>
+         <li class="nav-item">
+            <a class="nav-link <?php echo ($current_page == 'build.php') ? 'active' : ''; ?>" href="build.php#builder-section">砌機組合</a>
         </li>
         
         <!-- 常見問題 (假設檔案為 faq.php) -->

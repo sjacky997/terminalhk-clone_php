@@ -1,3 +1,8 @@
+/* 預留空間，避免跳過去時元素緊貼螢幕頂部 */
+builder-section {
+    scroll-margin-top: 20px; 
+}
+
 /* --- 基礎設置 --- */
 body {
     background-color: #f7f7f7;
@@ -343,4 +348,64 @@ body {
 /* 移除下拉箭頭與文字的間距，讓它更緊湊 */
 #loginDropdown {
     padding-right: 0;
+}
+
+/* ========================================= */
+/* --- 自選砌機頁面專用樣式 --- */
+/* ========================================= */
+
+/* 左側零件搜尋框 (讓外觀看起來像純文字) */
+.search-part input::placeholder {
+    color: #888;
+}
+.search-part input:focus {
+    background-color: transparent !important;
+}
+
+/* 左側「加入購物車」按鈕 (淺綠色) */
+.btn-add-cart {
+    background-color: #97d19e; /* 截圖中的淺綠色 */
+    color: white;
+    border: none;
+    border-radius: 2px;
+    font-size: 15px;
+    transition: background-color 0.2s;
+}
+.btn-add-cart:hover {
+    background-color: #7cb884;
+    color: white;
+}
+
+/* 右側推薦列表滑鼠懸停效果 */
+.recommend-item {
+    transition: background-color 0.2s;
+}
+.recommend-item:hover {
+    background-color: #f8f9fa;
+}
+.recommend-item a {
+    text-decoration: none;
+    font-size: 18px;
+}
+
+/* 右側頂部搜尋欄微調 */
+.input-group .btn-outline-secondary {
+    border-color: #ced4da;
+    color: #4a90e2 !important;
+}
+.input-group .btn-outline-secondary:hover {
+    background-color: #f8f9fa;
+    color: #357abd !important;
+}
+.input-group .form-control:focus {
+    box-shadow: none;
+    border-color: #ced4da;
+}
+
+/* FAQ 區域微調 */
+.faq-content p {
+    margin-bottom: 1.5rem;
+}
+.faq-content a {
+    color: #4a90e2;
 }
