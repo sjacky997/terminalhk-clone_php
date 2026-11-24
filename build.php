@@ -7,6 +7,116 @@
  *
  * Custom PC builder page: parts search, recommended builds and price summary.
  */
+/**
+ * Recommended builds -> values for the left-hand parts table.
+ * Numeric keys match the indexes of $parts below:
+ * 0 Windows / 1 CPU / 2 Motherboard / 3 Graphics card / 4 RAM / 5 PSU /
+ * 6 HDD / 7 SSD / 8 Case / 9 Optical drive / 10 Cooler /
+ * 11 Wi-Fi card / 12 Monitor / 13 Keyboard & mouse / 14 Software
+ * A missing key means that field stays blank. Windows is left blank
+ * according to FAQ A02 (builds do not include Windows).
+ * These are sample values; replace the product names with real ones.
+ * No other code needs to be changed.
+ */
+$buildCatalog = [
+    0 => [
+        'price' => 3463,
+        // Optional: unit prices displayed in the simple-mode part list.
+        'partPrices' => [1 => 429, 2 => 639, 4 => 1099, 5 => 299, 7 => 699, 8 => 199, 10 => 99],
+        'parts' => [
+        1 => 'AMD Ryzen 5 8600G', 2 => 'A620M 主板', 3 => '內建 Radeon 顯示卡',
+        4 => '16GB DDR5', 5 => '450W 電源', 7 => '1TB SSD', 8 => '細機箱',
+        10 => '原廠散熱', 11 => 'Wi-Fi 6',
+    ]],
+    1 => ['price' => 4100, 'parts' => [
+        1 => 'Intel Core i5-14400', 2 => 'B760M 主板', 3 => '內建 Intel UHD',
+        4 => '16GB DDR5', 5 => '500W 電源', 7 => '1TB SSD', 8 => '文書機箱',
+        10 => '原廠散熱', 11 => 'Wi-Fi 6',
+    ]],
+    2 => ['price' => 6700, 'parts' => [
+        1 => 'AMD Ryzen 5 7500F', 2 => 'A620M 主板', 3 => 'RTX 5050 8GB',
+        4 => '16GB DDR5', 5 => '550W 電源', 7 => '1TB NVMe SSD', 8 => '入門電競機箱',
+        10 => '塔式風冷', 11 => 'Wi-Fi 6',
+    ]],
+    3 => ['price' => 7600, 'parts' => [
+        1 => 'AMD Ryzen 5 9600X', 2 => 'B650M 主板', 3 => 'RX 9060 XT 8GB',
+        4 => '32GB DDR5', 5 => '650W 電源', 7 => '1TB NVMe SSD', 8 => '電競機箱',
+        10 => '塔式風冷', 11 => 'Wi-Fi 6',
+    ]],
+    4 => ['price' => 8200, 'parts' => [
+        1 => 'Intel Core i5-14400F', 2 => 'B760M 主板', 3 => 'RTX 5060 8GB',
+        4 => '16GB DDR5', 5 => '650W 電源', 7 => '1TB NVMe SSD', 8 => 'R6 電競機箱',
+        10 => '塔式風冷', 11 => 'Wi-Fi 6',
+    ]],
+    5 => ['price' => 8800, 'parts' => [
+        1 => 'Intel Core i5-14600KF', 2 => 'Z790M 主板', 3 => 'RTX 5060 8GB',
+        4 => '32GB DDR5', 5 => '750W 電源', 7 => '1TB NVMe SSD', 8 => '黑白配機箱',
+        10 => '240 水冷', 11 => 'Wi-Fi 6E',
+    ]],
+    6 => ['price' => 8900, 'parts' => [
+        1 => 'AMD Ryzen 7 9700X', 2 => 'B650M 主板', 3 => 'RTX 5060 Ti 8GB',
+        4 => '32GB DDR5', 5 => '750W 電源', 7 => '1TB NVMe SSD', 8 => '通風網孔機箱',
+        10 => '360 水冷', 11 => 'Wi-Fi 6E',
+    ]],
+    7 => ['price' => 9300, 'parts' => [
+        1 => 'AMD Ryzen 7 9800X3D', 2 => 'B650 主板', 3 => 'RX 9060 XT 16GB',
+        4 => '32GB DDR5', 5 => '850W 電源', 7 => '2TB NVMe SSD', 8 => '電競機箱',
+        10 => '360 水冷', 11 => 'Wi-Fi 6E',
+    ]],
+    8 => ['price' => 11500, 'parts' => [
+        1 => 'Intel Core i7-14700K', 2 => 'Z790 主板', 3 => 'RTX 5070 12GB',
+        4 => '32GB DDR5', 5 => '850W 電源', 7 => '2TB NVMe SSD', 8 => '海景房機箱',
+        10 => '360 水冷', 11 => 'Wi-Fi 6E',
+    ]],
+    9 => ['price' => 12000, 'parts' => [
+        1 => 'Intel Core i7-14700KF', 2 => 'Z790 主板', 3 => 'RTX 5060 Ti 16GB',
+        4 => '32GB DDR5', 5 => '850W 電源', 7 => '2TB NVMe SSD', 8 => '海景黑白機箱',
+        10 => '360 水冷', 11 => 'Wi-Fi 6E',
+    ]],
+    10 => ['price' => 12700, 'parts' => [
+        1 => 'AMD Ryzen 7 9800X3D', 2 => 'X670 主板', 3 => 'RX 9070 16GB',
+        4 => '32GB DDR5', 5 => '850W 電源', 7 => '2TB NVMe SSD', 8 => '海景房機箱',
+        10 => '360 水冷', 11 => 'Wi-Fi 6E',
+    ]],
+    11 => ['price' => 14350, 'parts' => [
+        1 => 'AMD Ryzen 7 9800X3D', 2 => 'X670E 主板', 3 => 'RX 9070 XT 16GB',
+        4 => '32GB DDR5', 5 => '1000W 電源', 7 => '2TB NVMe SSD', 8 => '電競機箱',
+        10 => '360 水冷', 11 => 'Wi-Fi 6E',
+    ]],
+    12 => ['price' => 17100, 'parts' => [
+        1 => 'Intel Core i9-14900K', 2 => 'Z790 主板', 3 => 'RTX 5070 12GB',
+        4 => '32GB DDR5', 5 => '1000W 電源', 7 => '2TB NVMe SSD', 8 => '海景房機箱',
+        10 => '360 水冷', 11 => 'Wi-Fi 6E', 12 => '27 吋 2K 顯示器',
+        13 => '電競滑鼠鍵盤',
+    ]],
+    13 => ['price' => 18100, 'parts' => [
+        1 => 'AMD Ryzen 7 9800X3D', 2 => 'X670E 主板', 3 => 'RTX 5070 Ti 16GB',
+        4 => '32GB DDR5', 5 => '1000W 電源', 7 => '2TB NVMe SSD', 8 => '電競機箱',
+        10 => '360 水冷', 11 => 'Wi-Fi 6E', 12 => '27 吋 2K 電競顯示器',
+    ]],
+    14 => ['price' => 19100, 'parts' => [
+        1 => 'Intel Core i9-14900K', 2 => 'Z790 主板', 3 => 'RTX 5070 Ti 16GB',
+        4 => '64GB DDR5', 5 => '1000W 電源', 7 => '2TB NVMe SSD', 8 => '電競機箱',
+        10 => '360 水冷', 11 => 'Wi-Fi 6E', 12 => '32 吋 4K 顯示器',
+    ]],
+    15 => ['price' => 24650, 'parts' => [
+        1 => 'Intel Core Ultra 9 285K', 2 => 'Z890 主板', 3 => 'RTX 5080 16GB',
+        4 => '64GB DDR5', 5 => '1200W 電源', 7 => '2TB NVMe SSD', 8 => '4K 海景電競機箱',
+        10 => '360 水冷', 11 => 'Wi-Fi 7', 12 => '32 吋 4K 顯示器',
+    ]],
+    16 => ['price' => 28800, 'parts' => [
+        1 => 'Intel Core i9-14900K', 2 => 'Z790 主板', 3 => 'RTX 5070 Ti 16GB',
+        4 => '64GB DDR5', 5 => '1000W 電源', 6 => '4TB HDD', 7 => '2TB NVMe SSD',
+        8 => '多媒體機箱', 10 => '360 水冷', 11 => 'Wi-Fi 6E',
+        12 => '27 吋 4K 顯示器', 13 => '直播套裝',
+    ]],
+    17 => ['price' => 46700, 'parts' => [
+        1 => 'Intel Core Ultra 9 285K', 2 => 'Z890 主板', 3 => 'RTX 5080 16GB',
+        4 => '64GB DDR5', 5 => '1200W 電源', 7 => '4TB NVMe SSD', 8 => 'ASUS PBA 黑白機箱',
+        10 => '360 水冷', 11 => 'Wi-Fi 7', 12 => '32 吋 4K 顯示器',
+        13 => '電競滑鼠鍵盤',
+    ]],
+];
 
 
 // Include header
@@ -44,25 +154,31 @@ include 'includes/header.php';
              <div class="parts-list" id="detailed-parts">
                 <?php 
                 $parts = ['Windows', 'CPU', '主機板', '顯示卡', 'RAM', '火牛', 'HDD', 'SSD', '機箱', '光碟機', '散熱', '無線上網卡', '顯示器', '鍵盤/滑鼠/遊戲手制', '軟件'];
-                foreach ($parts as $part): 
+                foreach ($parts as $partIndex => $part):
                 ?>
                 <div class="part-item border-bottom py-3">
                     <div class="text-dark mb-1"><?php echo $part; ?></div>
                     <div class="d-flex align-items-center text-muted search-part">
                         <?php echo icon_svg('search', 'me-2'); ?>
 
-                        <input type="text" class="form-control border-0 shadow-none p-0 bg-transparent" placeholder="搜索/加入<?php echo $part; ?>">
+                        <input type="text" class="form-control border-0 shadow-none p-0 bg-transparent" data-part="<?php echo $partIndex; ?>" placeholder="搜索/加入<?php echo $part; ?>">
                     </div>
                 </div>
                 <?php endforeach; ?>
             </div>
 
-            <!-- Simple-mode hint (hidden by default with d-none) -->
-            <div id="simple-mode-content" class="d-none py-5 border-bottom">
-                <div class="text-center text-muted py-4">
+            <!-- Simple-mode content: placeholder or compact part list -->
+            <div id="simple-mode-content" class="d-none py-4 border-bottom">
+                <div id="simple-placeholder" class="text-center text-muted py-4">
                     請加入電腦組合或硬件
                 </div>
+                <div id="simple-build" class="d-none">
+                    <div id="simple-build-rows"></div>
+                    <div class="text-end text-muted small mt-3">產品: <span class="text-dark" id="simple-build-price"></span></div>
+                </div>
             </div>
+            <span id="trash-icon-source" class="d-none"><?php echo icon_svg('trash'); ?></span>
+
 
             <!-- Left-side summary -->
             <div class="mt-4">
@@ -73,7 +189,7 @@ include 'includes/header.php';
                     </select>
                 </div>
                 <div class="text-end mb-2 text-muted">
-                    產品: <span class="text-dark">$0</span>
+                    產品: <span class="text-dark" id="parts-price">$0</span>
                 </div>
                 <div class="text-end mb-3 text-muted">
                     砌機: <span class="text-dark">$199</span> 
@@ -132,12 +248,13 @@ include 'includes/header.php';
                     '$28800 打機直播剪片多媒體應用組合 (RTX 5070 TI)',
                     '$46700 ASUS PBA 攻頂黑白配 (RTX 5080)'
                 ];
-                foreach ($recommends as $item): 
+                foreach ($recommends as $buildIndex => $item):
                 ?>
-                <div class="d-flex align-items-center border-bottom py-3 recommend-item">
-                    <a href="#" class="text-dark me-3"><?php echo icon_svg('arrow-left'); ?></a>
+                <div class="d-flex align-items-center border-bottom py-3 recommend-item" data-build-row="<?php echo $buildIndex; ?>">
+                    <a href="#" class="text-dark me-3 apply-build" data-build="<?php echo $buildIndex; ?>" title="加入左邊表格"><?php echo icon_svg('arrow-left'); ?></a>
                     <div class="flex-grow-1">
-                        <div class="text-dark"><?php echo $item; ?></div>
+                        <div class="text-dark apply-build" data-build="<?php echo $buildIndex; ?>" style="cursor: pointer;"><?php echo e($item); ?></div>
+
                         <div class="text-end text-muted small mt-1">2026-09-07</div>
                     </div>
                     <a href="#" class="text-muted mx-3"><?php echo icon_svg('trash'); ?></a>
@@ -204,6 +321,66 @@ document.addEventListener('DOMContentLoaded', function() {
     const simpleModeCheckbox = document.getElementById('simpleMode');
     const detailedParts = document.getElementById('detailed-parts');
     const simpleModeContent = document.getElementById('simple-mode-content');
+    const simplePlaceholder = document.getElementById('simple-placeholder');
+    const simpleBuild = document.getElementById('simple-build');
+    const simpleBuildRows = document.getElementById('simple-build-rows');
+    const simpleBuildPrice = document.getElementById('simple-build-price');
+    const trashIcon = document.getElementById('trash-icon-source').innerHTML;
+    const partLabels = Array.from(document.querySelectorAll('#detailed-parts .part-item > .text-dark'))
+        .map(function (label) { return label.textContent.trim(); });
+
+    let selectedPrice = 0;
+    let currentBuild = null;
+
+    function escapeHtml(text) {
+        const div = document.createElement('div');
+        div.textContent = text;
+        return div.innerHTML;
+    }
+
+    function renderSimpleMode() {
+        if (!currentBuild) {
+            if (simplePlaceholder) simplePlaceholder.classList.remove('d-none');
+            if (simpleBuild) simpleBuild.classList.add('d-none');
+            return;
+        }
+        if (simplePlaceholder) simplePlaceholder.classList.add('d-none');
+        if (simpleBuild) simpleBuild.classList.remove('d-none');
+
+        const rows = [];
+        partLabels.forEach(function (label, index) {
+            const value = currentBuild.parts && currentBuild.parts[index];
+            if (value) {
+                rows.push('<div class="d-flex justify-content-between align-items-center border-bottom py-2">'
+                    + '<div class="flex-grow-1">'
+                    + '<div class="text-dark small">' + escapeHtml(label) + '</div>'
+                    + '<div class="text-primary small">' + escapeHtml(value) + '</div>'
+                    + '</div>'
+                    + (currentBuild.partPrices && currentBuild.partPrices[index]
+                        ? '<span class="text-muted small me-3">' + money(currentBuild.partPrices[index]) + '</span>'
+                        : '')
+                    + '<a href="#" class="text-muted ms-3 remove-simple-part" data-index="' + index + '">'
+                    + trashIcon + '</a></div>');
+            } else if (index === 0) {
+                rows.push('<div class="border-bottom py-2">'
+                    + '<div class="text-dark small">Windows</div>'
+                    + '<div class="text-muted small">搜尋/加入Windows</div></div>');
+            }
+        });
+        if (simpleBuildRows) simpleBuildRows.innerHTML = rows.join('');
+        if (simpleBuildPrice) simpleBuildPrice.textContent = money(selectedPrice);
+    }
+
+    // Remove one part from both modes.
+    document.addEventListener('click', function (event) {
+        const removeButton = event.target.closest('.remove-simple-part');
+        if (!removeButton) return;
+        event.preventDefault();
+        const index = Number(removeButton.dataset.index);
+        if (buildInputs[index]) buildInputs[index].value = '';
+        if (currentBuild && currentBuild.parts) delete currentBuild.parts[index];
+        renderSimpleMode();
+    });
 
     if (simpleModeCheckbox) {
         simpleModeCheckbox.addEventListener('change', function() {
@@ -214,26 +391,73 @@ document.addEventListener('DOMContentLoaded', function() {
                 detailedParts.classList.remove('d-none');
                 simpleModeContent.classList.add('d-none');
             }
+            renderSimpleMode();
         });
     }
 
     // ==========================================
-    // 2. Build-service checkbox total calculation
+    // 2. Total calculation + 3. Apply recommended build
     // ==========================================
     const checkService = document.getElementById('checkService');
     const totalPrice = document.getElementById('total-price');
+    const partsPrice = document.getElementById('parts-price');
+    const buildInputs = document.querySelectorAll('#detailed-parts input[data-part]');
+    const buildCatalog = <?php echo json_encode($buildCatalog, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES); ?>;
 
-    if (checkService && totalPrice) {
-        checkService.addEventListener('change', function() {
-            if (this.checked) {
-                // When checked, the total is $199
-                totalPrice.textContent = '$199';
-            } else {
-                // When unchecked, the total is $0
-                totalPrice.textContent = '$0';
+    function money(value) {
+        return '$' + Number(value).toLocaleString('en-US');
+    }
+
+    function updateTotal() {
+        const service = (checkService && checkService.checked) ? 199 : 0;
+        if (totalPrice) {
+            totalPrice.textContent = money(selectedPrice + service);
+        }
+    }
+
+    if (checkService) {
+        checkService.addEventListener('change', updateTotal);
+    }
+
+    // Click the left arrow or the build name to fill the left-hand table.
+    document.querySelectorAll('.apply-build').forEach(function(target) {
+        target.addEventListener('click', function(event) {
+            event.preventDefault();
+
+            const build = buildCatalog[this.dataset.build];
+            if (!build) {
+                return;
+            }
+
+            // Keep both modes in sync: remember the chosen build for the simple view.
+            currentBuild = {
+                parts: Object.assign({}, build.parts),
+                partPrices: build.partPrices ? Object.assign({}, build.partPrices) : null
+            };
+
+            buildInputs.forEach(function(input, index) {
+                input.value = (build.parts && build.parts[index] !== undefined)
+                    ? build.parts[index]
+                    : '';
+            });
+
+            selectedPrice = Number(build.price) || 0;
+            if (partsPrice) {
+                partsPrice.textContent = money(selectedPrice);
+            }
+            updateTotal();
+            renderSimpleMode();
+
+            // Highlight the chosen row only.
+            document.querySelectorAll('.recommend-item').forEach(function(row) {
+                row.classList.remove('bg-light');
+            });
+            const chosenRow = this.closest('.recommend-item');
+            if (chosenRow) {
+                chosenRow.classList.add('bg-light');
             }
         });
-    }
+    });
 
 });
 </script>
