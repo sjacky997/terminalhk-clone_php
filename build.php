@@ -8,115 +8,51 @@
  * Custom PC builder page: parts search, recommended builds and price summary.
  */
 /**
- * Recommended builds -> values for the left-hand parts table.
- * Numeric keys match the indexes of $parts below:
- * 0 Windows / 1 CPU / 2 Motherboard / 3 Graphics card / 4 RAM / 5 PSU /
- * 6 HDD / 7 SSD / 8 Case / 9 Optical drive / 10 Cooler /
- * 11 Wi-Fi card / 12 Monitor / 13 Keyboard & mouse / 14 Software
- * A missing key means that field stays blank. Windows is left blank
- * according to FAQ A02 (builds do not include Windows).
- * These are sample values; replace the product names with real ones.
- * No other code needs to be changed.
+ * Recommended builds, read from data/builds.xml.
+ *
+ * data/builds.xml : one <build> per row of the right-hand list.
+ *                   <build id="n"> holds <name>, <price> and a <parts> block.
+ *                   Each <part field="n"> fills one cell of the left-hand table,
+ *                   where n is the index of $parts below (0 Windows ... 14 Software).
+ *
+ * load_xml() comes from includes/xml.php and returns null when the file is
+ * missing or malformed, so the page can fall back to the static titles below.
  */
-$buildCatalog = [
-    0 => [
-        'price' => 3463,
-        // Optional: unit prices displayed in the simple-mode part list.
-        'partPrices' => [1 => 429, 2 => 639, 4 => 1099, 5 => 299, 7 => 699, 8 => 199, 10 => 99],
-        'parts' => [
-        1 => 'AMD Ryzen 5 8600G', 2 => 'A620M 主板', 3 => '內建 Radeon 顯示卡',
-        4 => '16GB DDR5', 5 => '450W 電源', 7 => '1TB SSD', 8 => '細機箱',
-        10 => '原廠散熱', 11 => 'Wi-Fi 6',
-    ]],
-    1 => ['price' => 4100, 'parts' => [
-        1 => 'Intel Core i5-14400', 2 => 'B760M 主板', 3 => '內建 Intel UHD',
-        4 => '16GB DDR5', 5 => '500W 電源', 7 => '1TB SSD', 8 => '文書機箱',
-        10 => '原廠散熱', 11 => 'Wi-Fi 6',
-    ]],
-    2 => ['price' => 6700, 'parts' => [
-        1 => 'AMD Ryzen 5 7500F', 2 => 'A620M 主板', 3 => 'RTX 5050 8GB',
-        4 => '16GB DDR5', 5 => '550W 電源', 7 => '1TB NVMe SSD', 8 => '入門電競機箱',
-        10 => '塔式風冷', 11 => 'Wi-Fi 6',
-    ]],
-    3 => ['price' => 7600, 'parts' => [
-        1 => 'AMD Ryzen 5 9600X', 2 => 'B650M 主板', 3 => 'RX 9060 XT 8GB',
-        4 => '32GB DDR5', 5 => '650W 電源', 7 => '1TB NVMe SSD', 8 => '電競機箱',
-        10 => '塔式風冷', 11 => 'Wi-Fi 6',
-    ]],
-    4 => ['price' => 8200, 'parts' => [
-        1 => 'Intel Core i5-14400F', 2 => 'B760M 主板', 3 => 'RTX 5060 8GB',
-        4 => '16GB DDR5', 5 => '650W 電源', 7 => '1TB NVMe SSD', 8 => 'R6 電競機箱',
-        10 => '塔式風冷', 11 => 'Wi-Fi 6',
-    ]],
-    5 => ['price' => 8800, 'parts' => [
-        1 => 'Intel Core i5-14600KF', 2 => 'Z790M 主板', 3 => 'RTX 5060 8GB',
-        4 => '32GB DDR5', 5 => '750W 電源', 7 => '1TB NVMe SSD', 8 => '黑白配機箱',
-        10 => '240 水冷', 11 => 'Wi-Fi 6E',
-    ]],
-    6 => ['price' => 8900, 'parts' => [
-        1 => 'AMD Ryzen 7 9700X', 2 => 'B650M 主板', 3 => 'RTX 5060 Ti 8GB',
-        4 => '32GB DDR5', 5 => '750W 電源', 7 => '1TB NVMe SSD', 8 => '通風網孔機箱',
-        10 => '360 水冷', 11 => 'Wi-Fi 6E',
-    ]],
-    7 => ['price' => 9300, 'parts' => [
-        1 => 'AMD Ryzen 7 9800X3D', 2 => 'B650 主板', 3 => 'RX 9060 XT 16GB',
-        4 => '32GB DDR5', 5 => '850W 電源', 7 => '2TB NVMe SSD', 8 => '電競機箱',
-        10 => '360 水冷', 11 => 'Wi-Fi 6E',
-    ]],
-    8 => ['price' => 11500, 'parts' => [
-        1 => 'Intel Core i7-14700K', 2 => 'Z790 主板', 3 => 'RTX 5070 12GB',
-        4 => '32GB DDR5', 5 => '850W 電源', 7 => '2TB NVMe SSD', 8 => '海景房機箱',
-        10 => '360 水冷', 11 => 'Wi-Fi 6E',
-    ]],
-    9 => ['price' => 12000, 'parts' => [
-        1 => 'Intel Core i7-14700KF', 2 => 'Z790 主板', 3 => 'RTX 5060 Ti 16GB',
-        4 => '32GB DDR5', 5 => '850W 電源', 7 => '2TB NVMe SSD', 8 => '海景黑白機箱',
-        10 => '360 水冷', 11 => 'Wi-Fi 6E',
-    ]],
-    10 => ['price' => 12700, 'parts' => [
-        1 => 'AMD Ryzen 7 9800X3D', 2 => 'X670 主板', 3 => 'RX 9070 16GB',
-        4 => '32GB DDR5', 5 => '850W 電源', 7 => '2TB NVMe SSD', 8 => '海景房機箱',
-        10 => '360 水冷', 11 => 'Wi-Fi 6E',
-    ]],
-    11 => ['price' => 14350, 'parts' => [
-        1 => 'AMD Ryzen 7 9800X3D', 2 => 'X670E 主板', 3 => 'RX 9070 XT 16GB',
-        4 => '32GB DDR5', 5 => '1000W 電源', 7 => '2TB NVMe SSD', 8 => '電競機箱',
-        10 => '360 水冷', 11 => 'Wi-Fi 6E',
-    ]],
-    12 => ['price' => 17100, 'parts' => [
-        1 => 'Intel Core i9-14900K', 2 => 'Z790 主板', 3 => 'RTX 5070 12GB',
-        4 => '32GB DDR5', 5 => '1000W 電源', 7 => '2TB NVMe SSD', 8 => '海景房機箱',
-        10 => '360 水冷', 11 => 'Wi-Fi 6E', 12 => '27 吋 2K 顯示器',
-        13 => '電競滑鼠鍵盤',
-    ]],
-    13 => ['price' => 18100, 'parts' => [
-        1 => 'AMD Ryzen 7 9800X3D', 2 => 'X670E 主板', 3 => 'RTX 5070 Ti 16GB',
-        4 => '32GB DDR5', 5 => '1000W 電源', 7 => '2TB NVMe SSD', 8 => '電競機箱',
-        10 => '360 水冷', 11 => 'Wi-Fi 6E', 12 => '27 吋 2K 電競顯示器',
-    ]],
-    14 => ['price' => 19100, 'parts' => [
-        1 => 'Intel Core i9-14900K', 2 => 'Z790 主板', 3 => 'RTX 5070 Ti 16GB',
-        4 => '64GB DDR5', 5 => '1000W 電源', 7 => '2TB NVMe SSD', 8 => '電競機箱',
-        10 => '360 水冷', 11 => 'Wi-Fi 6E', 12 => '32 吋 4K 顯示器',
-    ]],
-    15 => ['price' => 24650, 'parts' => [
-        1 => 'Intel Core Ultra 9 285K', 2 => 'Z890 主板', 3 => 'RTX 5080 16GB',
-        4 => '64GB DDR5', 5 => '1200W 電源', 7 => '2TB NVMe SSD', 8 => '4K 海景電競機箱',
-        10 => '360 水冷', 11 => 'Wi-Fi 7', 12 => '32 吋 4K 顯示器',
-    ]],
-    16 => ['price' => 28800, 'parts' => [
-        1 => 'Intel Core i9-14900K', 2 => 'Z790 主板', 3 => 'RTX 5070 Ti 16GB',
-        4 => '64GB DDR5', 5 => '1000W 電源', 6 => '4TB HDD', 7 => '2TB NVMe SSD',
-        8 => '多媒體機箱', 10 => '360 水冷', 11 => 'Wi-Fi 6E',
-        12 => '27 吋 4K 顯示器', 13 => '直播套裝',
-    ]],
-    17 => ['price' => 46700, 'parts' => [
-        1 => 'Intel Core Ultra 9 285K', 2 => 'Z890 主板', 3 => 'RTX 5080 16GB',
-        4 => '64GB DDR5', 5 => '1200W 電源', 7 => '4TB NVMe SSD', 8 => 'ASUS PBA 黑白機箱',
-        10 => '360 水冷', 11 => 'Wi-Fi 7', 12 => '32 吋 4K 顯示器',
-        13 => '電競滑鼠鍵盤',
-    ]],
-];
+require_once __DIR__ . '/includes/xml.php';
+
+$buildCatalog = [];
+$buildsRoot = load_xml(__DIR__ . '/data/builds.xml');
+
+if ($buildsRoot !== null) {
+    foreach ($buildsRoot->build as $buildNode) {
+        $buildId = (int) $buildNode['id'];
+        $parts = [];
+        $partPrices = [];
+
+        foreach ($buildNode->parts->part as $partNode) {
+            $field = (int) $partNode['field'];
+            $parts[$field] = (string) $partNode;
+
+            if ((string) $partNode['price'] !== '') {
+                $partPrices[$field] = (int) $partNode['price'];
+            }
+        }
+
+        $entry = [
+            'name' => (string) $buildNode->name,
+            'price' => (int) $buildNode->price,
+            'parts' => $parts,
+        ];
+
+        if ($partPrices) {
+            $entry['partPrices'] = $partPrices;
+        }
+
+        $buildCatalog[$buildId] = $entry;
+    }
+
+    ksort($buildCatalog);
+}
 
 
 // Include header
@@ -248,12 +184,25 @@ include 'includes/header.php';
                     '$28800 打機直播剪片多媒體應用組合 (RTX 5070 TI)',
                     '$46700 ASUS PBA 攻頂黑白配 (RTX 5080)'
                 ];
-                foreach ($recommends as $buildIndex => $item):
+                // Fallback: if data/builds.xml is missing, keep the list usable
+                // by rebuilding it from the static titles above.
+                if (!$buildCatalog) {
+                    foreach ($recommends as $fallbackIndex => $fallbackTitle) {
+                        $buildCatalog[$fallbackIndex] = [
+                            'name' => $fallbackTitle,
+                            'price' => 0,
+                            'parts' => [],
+                        ];
+                    }
+                }
+
+                foreach ($buildCatalog as $buildIndex => $build):
+
                 ?>
-                <div class="d-flex align-items-center border-bottom py-3 recommend-item" data-build-row="<?php echo $buildIndex; ?>">
+                <div class="d-flex align-items-center border-bottom py-3 recommend-item">
                     <a href="#" class="text-dark me-3 apply-build" data-build="<?php echo $buildIndex; ?>" title="加入左邊表格"><?php echo icon_svg('arrow-left'); ?></a>
                     <div class="flex-grow-1">
-                        <div class="text-dark apply-build" data-build="<?php echo $buildIndex; ?>" style="cursor: pointer;"><?php echo e($item); ?></div>
+                        <div class="text-dark apply-build" data-build="<?php echo $buildIndex; ?>" style="cursor: pointer;"><?php echo e($build['name']); ?></div>
 
                         <div class="text-end text-muted small mt-1">2026-09-07</div>
                     </div>
@@ -328,16 +277,20 @@ document.addEventListener('DOMContentLoaded', function() {
     const trashIcon = document.getElementById('trash-icon-source').innerHTML;
     const partLabels = Array.from(document.querySelectorAll('#detailed-parts .part-item > .text-dark'))
         .map(function (label) { return label.textContent.trim(); });
-
+    const buildInputs = document.querySelectorAll('#detailed-parts input[data-part]');
     let selectedPrice = 0;
     let currentBuild = null;
 
+    // Escape text before inserting it into HTML so a product name cannot break the markup.
+    // Input: text (string). Output: HTML-safe string.
     function escapeHtml(text) {
         const div = document.createElement('div');
         div.textContent = text;
         return div.innerHTML;
     }
 
+    // Draw the simple-mode part list from currentBuild and its optional unit prices.
+    // Input: none (reads currentBuild, selectedPrice). Output: none (updates the DOM).
     function renderSimpleMode() {
         if (!currentBuild) {
             if (simplePlaceholder) simplePlaceholder.classList.remove('d-none');
@@ -401,13 +354,16 @@ document.addEventListener('DOMContentLoaded', function() {
     const checkService = document.getElementById('checkService');
     const totalPrice = document.getElementById('total-price');
     const partsPrice = document.getElementById('parts-price');
-    const buildInputs = document.querySelectorAll('#detailed-parts input[data-part]');
     const buildCatalog = <?php echo json_encode($buildCatalog, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES); ?>;
 
+    // Format a number as a dollar amount, e.g. 3463 -> "$3,463".
+    // Input: value (number). Output: formatted string.
     function money(value) {
         return '$' + Number(value).toLocaleString('en-US');
     }
-
+    
+    // Recalculate the grand total = parts price + $199 build service when ticked.
+    // Input: none (reads selectedPrice and checkService). Output: none (updates #total-price).
     function updateTotal() {
         const service = (checkService && checkService.checked) ? 199 : 0;
         if (totalPrice) {
