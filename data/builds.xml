@@ -5,14 +5,17 @@
   Root node <builds> holds one <build> per row of the right-hand list.
     id    : display order on the page (0 = first row)
     name  : label printed in the list
-    price : total build price in HKD, shown as the parts subtotal
+    price : total of the unit prices below, kept as a fallback for builds
+            that have no unit price at all
 
   Inside each <build>, <parts> holds one <part> per cell of the left-hand table.
     field : index of the left-hand field (0 Windows, 1 CPU, 2 Motherboard,
             3 Graphics card, 4 RAM, 5 PSU, 6 HDD, 7 SSD, 8 Case,
             9 Optical drive, 10 Cooler, 11 Wi-Fi card, 12 Monitor,
             13 Keyboard/mouse/gamepad, 14 Software)
-    price : optional unit price, only printed in simple mode
+    price : unit price in HKD; the parts subtotal is the sum of these values,
+            so a part without a price (integrated graphics, for example) adds
+            nothing to the total
     text  : product name placed into that field
 
   A field with no <part> entry stays blank. Windows is left blank on every
@@ -23,280 +26,251 @@
         <name>$3400 AMD 細機文書組合</name>
         <price>3463</price>
         <parts>
-            <part field="1" price="429">AMD Ryzen 5 8600G</part>
-            <part field="2" price="639">A620M 主板</part>
+            <part field="1" price="429">AMD Ryzen 3 3200G 3.6GHz 4 Core AM4</part>
+            <part field="2" price="639">Asus Prime A520M-K M.ATX</part>
             <part field="3">內建 Radeon 顯示卡</part>
-            <part field="4" price="1099">16GB DDR5</part>
-            <part field="5" price="299">450W 電源</part>
-            <part field="7" price="699">1TB SSD</part>
-            <part field="8" price="199">細機箱</part>
-            <part field="10" price="99">原廠散熱</part>
-            <part field="11">Wi-Fi 6</part>
+            <part field="4" price="1099">KLEVV DDR4 16GB 3200MHz CL22</part>
+            <part field="5" price="299">Cooler Master V550 GOLD-V2 White</part>
+            <part field="7" price="699">Biwin NV3500 512GB NVMe M.2</part>
+            <part field="8" price="199">Antec ST20M Mid Tower Case</part>
+            <part field="10" price="99">AOC T20 CPU Cooler</part>
         </parts>
     </build>
     <build id="1">
         <name>$4100 INTEL 文書組合</name>
-        <price>4100</price>
+        <price>3929</price>
         <parts>
-            <part field="1">Intel Core i5-14400</part>
-            <part field="2">B760M 主板</part>
-            <part field="3">內建 Intel UHD</part>
-            <part field="4">16GB DDR5</part>
-            <part field="5">500W 電源</part>
-            <part field="7">1TB SSD</part>
-            <part field="8">文書機箱</part>
-            <part field="10">原廠散熱</part>
-            <part field="11">Wi-Fi 6</part>
+            <part field="1" price="1049">Intel Core i3-12100 4.3GHz 4 Core LGA1700</part>
+            <part field="2" price="499">Asus PRIME H610M-E D4-CSM M.ATX</part>
+            <part field="3">內建 Intel UHD 顯示卡</part>
+            <part field="4" price="1099">OCPC XT II DDR4 16GB 3200MHz</part>
+            <part field="5" price="299">Cooler Master V550 GOLD-V2 White</part>
+            <part field="7" price="699">Biwin NV3500 512GB NVMe M.2</part>
+            <part field="8" price="199">Antec ST20M Mid Tower Case</part>
+            <part field="10" price="85">Intel Laminar RM1 LGA1700</part>
         </parts>
     </build>
     <build id="2">
         <name>$6700 小遊戲煲劇睇片組合 (RTX 5050)</name>
-        <price>6700</price>
+        <price>7082</price>
         <parts>
-            <part field="1">AMD Ryzen 5 7500F</part>
-            <part field="2">A620M 主板</part>
-            <part field="3">RTX 5050 8GB</part>
-            <part field="4">16GB DDR5</part>
-            <part field="5">550W 電源</part>
-            <part field="7">1TB NVMe SSD</part>
-            <part field="8">入門電競機箱</part>
-            <part field="10">塔式風冷</part>
-            <part field="11">Wi-Fi 6</part>
+            <part field="1" price="699">AMD Ryzen 5 5500 3.6GHz 6 Core AM4</part>
+            <part field="2" price="639">Asus Prime A520M-K M.ATX</part>
+            <part field="3" price="3199">Manli Nebula RTX 5050 8GB GDDR6</part>
+            <part field="4" price="1099">OCPC XT II DDR4 16GB 3200MHz</part>
+            <part field="5" price="299">Cooler Master V550 GOLD-V2 White</part>
+            <part field="7" price="699">Biwin NV3500 512GB NVMe M.2</part>
+            <part field="8" price="349">Okinos Cypress 3 Wood MATX</part>
+            <part field="10" price="99">AOC T20 CPU Cooler</part>
         </parts>
     </build>
     <build id="3">
         <name>$7600 AMD +D5 RAM性價比電競組合 (RX9060XT 8GB)</name>
-        <price>7600</price>
+        <price>8672</price>
         <parts>
-            <part field="1">AMD Ryzen 5 9600X</part>
-            <part field="2">B650M 主板</part>
-            <part field="3">RX 9060 XT 8GB</part>
-            <part field="4">32GB DDR5</part>
-            <part field="5">650W 電源</part>
-            <part field="7">1TB NVMe SSD</part>
-            <part field="8">電競機箱</part>
-            <part field="10">塔式風冷</part>
-            <part field="11">Wi-Fi 6</part>
+            <part field="1" price="769">AMD Ryzen 5 8400F 4.7GHz 6 Core AM5</part>
+            <part field="2" price="849">MSI B650M BOMBER WIFI MATX</part>
+            <part field="3" price="3899">PowerColor Reaper RX 9060 XT 8GB</part>
+            <part field="4" price="1699">OCPC VOLARE DDR5 16GB 6000MHz</part>
+            <part field="5" price="349">Antec CSK550 550W 80Plus Bronze</part>
+            <part field="7" price="699">Biwin NV3500 512GB NVMe M.2</part>
+            <part field="8" price="269">Okinos AQUA UNO ARGB MATX - Scarlet</part>
+            <part field="10" price="139">Cooler Master Hyper 212 Spectrum V3</part>
         </parts>
     </build>
     <build id="4">
         <name>$8200 R6 FPS 電競組合 (RTX 5060)</name>
-        <price>8200</price>
+        <price>9002</price>
         <parts>
-            <part field="1">Intel Core i5-14400F</part>
-            <part field="2">B760M 主板</part>
-            <part field="3">RTX 5060 8GB</part>
-            <part field="4">16GB DDR5</part>
-            <part field="5">650W 電源</part>
-            <part field="7">1TB NVMe SSD</part>
-            <part field="8">R6 電競機箱</part>
-            <part field="10">塔式風冷</part>
-            <part field="11">Wi-Fi 6</part>
+            <part field="1" price="1359">AMD Ryzen 5 5500X3D 4GHz 6 Core AM4</part>
+            <part field="2" price="639">Asus Prime A520M-K M.ATX</part>
+            <part field="3" price="4499">MSI RTX 5060 8G VENTUS 2X OC GDDR7</part>
+            <part field="4" price="1099">OCPC XT II DDR4 16GB 3200MHz</part>
+            <part field="5" price="299">Cooler Master V550 GOLD-V2 White</part>
+            <part field="7" price="699">Biwin NV3500 512GB NVMe M.2</part>
+            <part field="8" price="269">Okinos AQUA UNO ARGB MATX - Black</part>
+            <part field="10" price="139">Cooler Master Hyper 212 Spectrum V3</part>
         </parts>
     </build>
     <build id="5">
         <name>$8800 Intel 黑白配電競組合 (RTX 5060)</name>
-        <price>8800</price>
+        <price>9633</price>
         <parts>
-            <part field="1">Intel Core i5-14600KF</part>
-            <part field="2">Z790M 主板</part>
-            <part field="3">RTX 5060 8GB</part>
-            <part field="4">32GB DDR5</part>
-            <part field="5">750W 電源</part>
-            <part field="7">1TB NVMe SSD</part>
-            <part field="8">黑白配機箱</part>
-            <part field="10">240 水冷</part>
-            <part field="11">Wi-Fi 6E</part>
+            <part field="1" price="1049">Intel Core Ultra 5 225F 10 Cores</part>
+            <part field="2" price="1040">ASUS PRIME H810M-A-CSM MATX</part>
+            <part field="3" price="4399">Palt RTX 5060 White OC 8GB GDDR7</part>
+            <part field="4" price="1699">OCPC VOLARE DDR5 16GB 6000MHz</part>
+            <part field="5" price="299">Cooler Master V550 GOLD-V2 White</part>
+            <part field="7" price="699">Biwin NV3500 512GB NVMe M.2</part>
+            <part field="8" price="269">Okinos AQUA UNO ARGB MATX - Polar</part>
+            <part field="10" price="179">PCCOOLER RT400 White</part>
         </parts>
     </build>
     <build id="6">
         <name>$8900 散熱通風閃閃閃電競組合 (RTX 5060TI 8G)</name>
-        <price>8900</price>
+        <price>9722</price>
         <parts>
-            <part field="1">AMD Ryzen 7 9700X</part>
-            <part field="2">B650M 主板</part>
-            <part field="3">RTX 5060 Ti 8GB</part>
-            <part field="4">32GB DDR5</part>
-            <part field="5">750W 電源</part>
-            <part field="7">1TB NVMe SSD</part>
-            <part field="8">通風網孔機箱</part>
-            <part field="10">360 水冷</part>
-            <part field="11">Wi-Fi 6E</part>
+            <part field="1" price="769">AMD Ryzen 5 8400F 4.7GHz 6 Core AM5</part>
+            <part field="2" price="999">ASUS B650M-AYW WIFI MATX</part>
+            <part field="3" price="4699">INNO3D RTX 5060 Ti 8GB TWIN X2</part>
+            <part field="4" price="1799">ADATA DDR5 16GB 5600MHz CL46</part>
+            <part field="5" price="349">Antec CSK550 550W 80Plus Bronze</part>
+            <part field="7" price="699">Biwin NV3500 512GB NVMe M.2</part>
+            <part field="8" price="269">Okinos AQUA UNO ARGB MATX - Canary</part>
+            <part field="10" price="139">Cooler Master Hyper 212 Spectrum V3</part>
         </parts>
     </build>
     <build id="7">
         <name>$9300 惡鬼滅殺鬼武者斬鬼組合 (RX 9060XT 16GB)</name>
-        <price>9300</price>
+        <price>10342</price>
         <parts>
-            <part field="1">AMD Ryzen 7 9800X3D</part>
-            <part field="2">B650 主板</part>
-            <part field="3">RX 9060 XT 16GB</part>
-            <part field="4">32GB DDR5</part>
-            <part field="5">850W 電源</part>
-            <part field="7">2TB NVMe SSD</part>
-            <part field="8">電競機箱</part>
-            <part field="10">360 水冷</part>
-            <part field="11">Wi-Fi 6E</part>
+            <part field="1" price="949">AMD Ryzen 5 7500F 5GHz 6 Core AM5</part>
+            <part field="2" price="849">MSI B650M BOMBER WIFI MATX</part>
+            <part field="3" price="5199">PowerColor Reaper RX 9060 XT 16GB</part>
+            <part field="4" price="1799">ADATA DDR5 16GB 5600MHz CL46</part>
+            <part field="5" price="399">Antec CSK650 650W 80Plus Bronze</part>
+            <part field="7" price="699">Biwin NV3500 512GB NVMe M.2</part>
+            <part field="8" price="269">Okinos AQUA UNO ARGB MATX - Zebra</part>
+            <part field="10" price="179">ThermalRight Assassin X 120 Refined SE ARGB</part>
         </parts>
     </build>
     <build id="8">
         <name>$11500 INTEL 海景水冷組合 (RTX 5070)</name>
-        <price>11500</price>
+        <price>13092</price>
         <parts>
-            <part field="1">Intel Core i7-14700K</part>
-            <part field="2">Z790 主板</part>
-            <part field="3">RTX 5070 12GB</part>
-            <part field="4">32GB DDR5</part>
-            <part field="5">850W 電源</part>
-            <part field="7">2TB NVMe SSD</part>
-            <part field="8">海景房機箱</part>
-            <part field="10">360 水冷</part>
-            <part field="11">Wi-Fi 6E</part>
+            <part field="1" price="1099">Intel Core i5-14400F 6+4 Cores LGA1700</part>
+            <part field="2" price="499">Asus PRIME H610M-E D4-CSM M.ATX</part>
+            <part field="3" price="7699">INNO3D RTX 5070 TWIN X2 12GB GDDR7</part>
+            <part field="4" price="1099">OCPC XT II DDR4 16GB 3200MHz</part>
+            <part field="5" price="599">Thermaltake TOUGHPOWER X3 SE 750W Gold</part>
+            <part field="7" price="1299">MSI SPATIUM M450 1TB PCIe 4.0 NVMe</part>
+            <part field="8" price="399">Okinos Mirage 4 ARGB MATX - Black</part>
+            <part field="10" price="399">PCCOOLER DA240 240mm Liquid Cooler</part>
         </parts>
     </build>
     <build id="9">
         <name>$12000 海景黑白機組合 (RTX 5060Ti 16GB)</name>
-        <price>12000</price>
+        <price>13422</price>
         <parts>
-            <part field="1">Intel Core i7-14700KF</part>
-            <part field="2">Z790 主板</part>
-            <part field="3">RTX 5060 Ti 16GB</part>
-            <part field="4">32GB DDR5</part>
-            <part field="5">850W 電源</part>
-            <part field="7">2TB NVMe SSD</part>
-            <part field="8">海景黑白機箱</part>
-            <part field="10">360 水冷</part>
-            <part field="11">Wi-Fi 6E</part>
+            <part field="1" price="1349">AMD Ryzen 5 9600X 5.4GHz 6 Core AM5</part>
+            <part field="2" price="999">ASUS B650M-AYW WIFI MATX</part>
+            <part field="3" price="7299">INNO3D RTX 5060 Ti 16GB TWIN X2</part>
+            <part field="4" price="1699">OCPC VOLARE DDR5 16GB 6000MHz</part>
+            <part field="5" price="399">Antec CSK650 650W 80Plus Bronze</part>
+            <part field="7" price="1229">ADATA LEGEND 860 1TB PCIe Gen4 NVMe</part>
+            <part field="8" price="269">Okinos AQUA UNO ARGB MATX - Polar</part>
+            <part field="10" price="179">PCCOOLER RT400 White</part>
         </parts>
     </build>
     <build id="10">
         <name>$12700 AMD 海景水冷組合 (RX 9070)</name>
-        <price>12700</price>
+        <price>14242</price>
         <parts>
-            <part field="1">AMD Ryzen 7 9800X3D</part>
-            <part field="2">X670 主板</part>
-            <part field="3">RX 9070 16GB</part>
-            <part field="4">32GB DDR5</part>
-            <part field="5">850W 電源</part>
-            <part field="7">2TB NVMe SSD</part>
-            <part field="8">海景房機箱</part>
-            <part field="10">360 水冷</part>
-            <part field="11">Wi-Fi 6E</part>
+            <part field="1" price="1729">AMD Ryzen 7 9700X 5.5GHz 8 Core AM5</part>
+            <part field="2" price="999">ASUS B650M-AYW WIFI MATX</part>
+            <part field="3" price="7099">Sapphire PURE RX 9070 16GB OC</part>
+            <part field="4" price="1699">OCPC VOLARE DDR5 16GB 6000MHz</part>
+            <part field="5" price="599">Thermaltake TOUGHPOWER X3 SE 750W Gold</part>
+            <part field="7" price="1299">MSI SPATIUM M450 1TB PCIe 4.0 NVMe</part>
+            <part field="8" price="449">Antec CONSTELLATION C2M ARGB - White</part>
+            <part field="10" price="369">DeepCool LS520 SE 240mm Liquid - White</part>
         </parts>
     </build>
     <build id="11">
         <name>$14350 4K 暢玩性價比組合 (RX 9070 XT)</name>
-        <price>14350</price>
+        <price>16782</price>
         <parts>
-            <part field="1">AMD Ryzen 7 9800X3D</part>
-            <part field="2">X670E 主板</part>
-            <part field="3">RX 9070 XT 16GB</part>
-            <part field="4">32GB DDR5</part>
-            <part field="5">1000W 電源</part>
-            <part field="7">2TB NVMe SSD</part>
-            <part field="8">電競機箱</part>
-            <part field="10">360 水冷</part>
-            <part field="11">Wi-Fi 6E</part>
+            <part field="1" price="1729">AMD Ryzen 7 9700X 5.5GHz 8 Core AM5</part>
+            <part field="2" price="849">MSI B650M BOMBER WIFI MATX</part>
+            <part field="3" price="7899">PowerColor Reaper RX 9070 XT 16GB</part>
+            <part field="4" price="3899">ADATA Lancer Blade DDR5 32GB 5600MHz</part>
+            <part field="5" price="599">Thermaltake TOUGHPOWER X3 SE 750W Gold</part>
+            <part field="7" price="1299">MSI SPATIUM M450 1TB PCIe 4.0 NVMe</part>
+            <part field="8" price="329">Okinos Minimal Art 4 MATX - Black</part>
+            <part field="10" price="179">PCCOOLER RT400 Black</part>
         </parts>
     </build>
     <build id="12">
         <name>$17100 INTEL x ASUS PBA全餐組合 (RTX5070)</name>
-        <price>17100</price>
+        <price>17714</price>
         <parts>
-            <part field="1">Intel Core i9-14900K</part>
-            <part field="2">Z790 主板</part>
-            <part field="3">RTX 5070 12GB</part>
-            <part field="4">32GB DDR5</part>
-            <part field="5">1000W 電源</part>
-            <part field="7">2TB NVMe SSD</part>
-            <part field="8">海景房機箱</part>
-            <part field="10">360 水冷</part>
-            <part field="11">Wi-Fi 6E</part>
-            <part field="12">27 吋 2K 顯示器</part>
-            <part field="13">電競滑鼠鍵盤</part>
+            <part field="1" price="1399">Intel Core Ultra 5 245KF 14 Cores</part>
+            <part field="2" price="1620">Asus PRIME B860-PLUS WIFI-CSM ATX</part>
+            <part field="3" price="8699">ASUS TUF RTX 5070 12GB GDDR7 OC</part>
+            <part field="4" price="3899">ADATA Lancer Blade DDR5 32GB 5600MHz</part>
+            <part field="5" price="609">ASUS Prime 750W 80Plus Bronze</part>
+            <part field="7" price="1199">Crucial E100 1TB PCIe Gen4 NVMe</part>
+            <part field="10" price="289">ThermalRight Peerless Assassin 120 SE ARGB</part>
         </parts>
     </build>
     <build id="13">
         <name>$18100 2K滅鬼電競組合 (RTX 5070 TI)</name>
-        <price>18100</price>
+        <price>21222</price>
         <parts>
-            <part field="1">AMD Ryzen 7 9800X3D</part>
-            <part field="2">X670E 主板</part>
-            <part field="3">RTX 5070 Ti 16GB</part>
-            <part field="4">32GB DDR5</part>
-            <part field="5">1000W 電源</part>
-            <part field="7">2TB NVMe SSD</part>
-            <part field="8">電競機箱</part>
-            <part field="10">360 水冷</part>
-            <part field="11">Wi-Fi 6E</part>
-            <part field="12">27 吋 2K 電競顯示器</part>
+            <part field="1" price="1349">AMD Ryzen 5 9600X 5.4GHz 6 Core AM5</part>
+            <part field="2" price="999">ASUS B650M-AYW WIFI MATX</part>
+            <part field="3" price="12599">GALAX RTX 5070 Ti EX Gamer 1-Click OC</part>
+            <part field="4" price="3899">ADATA Lancer Blade DDR5 32GB 5600MHz</part>
+            <part field="5" price="599">Thermaltake TOUGHPOWER X3 SE 750W Gold</part>
+            <part field="7" price="1229">ADATA LEGEND 860 1TB PCIe Gen4 NVMe</part>
+            <part field="8" price="399">Cooler Master ELITE 490 MATX Case</part>
+            <part field="10" price="149">Cooler Master Hyper 212 3DHP ARGB</part>
         </parts>
     </build>
     <build id="14">
         <name>$19100 4K 電競組合 (RTX 5070 TI)</name>
-        <price>19100</price>
+        <price>22002</price>
         <parts>
-            <part field="1">Intel Core i9-14900K</part>
-            <part field="2">Z790 主板</part>
-            <part field="3">RTX 5070 Ti 16GB</part>
-            <part field="4">64GB DDR5</part>
-            <part field="5">1000W 電源</part>
-            <part field="7">2TB NVMe SSD</part>
-            <part field="8">電競機箱</part>
-            <part field="10">360 水冷</part>
-            <part field="11">Wi-Fi 6E</part>
-            <part field="12">32 吋 4K 顯示器</part>
+            <part field="1" price="1729">AMD Ryzen 7 9700X 5.5GHz 8 Core AM5</part>
+            <part field="2" price="1099">ASUS TUF GAMING B650EM-E WIFI MATX</part>
+            <part field="3" price="12599">GALAX RTX 5070 Ti EX Gamer 1-Click OC</part>
+            <part field="4" price="3899">ADATA Lancer Blade DDR5 32GB 5600MHz</part>
+            <part field="5" price="499">Cooler Master MWE Gold 750 V3 750W</part>
+            <part field="7" price="1229">ADATA LEGEND 860 1TB PCIe Gen4 NVMe</part>
+            <part field="8" price="449">Antec CONSTELLATION C2M ARGB - Black</part>
+            <part field="10" price="499">PCCOOLER DA360 360mm Liquid Cooler</part>
         </parts>
     </build>
     <build id="15">
         <name>$24650 4K海景電競組合(RTX 5080)</name>
-        <price>24650</price>
+        <price>27622</price>
         <parts>
-            <part field="1">Intel Core Ultra 9 285K</part>
-            <part field="2">Z890 主板</part>
-            <part field="3">RTX 5080 16GB</part>
-            <part field="4">64GB DDR5</part>
-            <part field="5">1200W 電源</part>
-            <part field="7">2TB NVMe SSD</part>
-            <part field="8">4K 海景電競機箱</part>
-            <part field="10">360 水冷</part>
-            <part field="11">Wi-Fi 7</part>
-            <part field="12">32 吋 4K 顯示器</part>
+            <part field="1" price="2899">AMD Ryzen 7 9800X3D</part>
+            <part field="2" price="1099">ASUS TUF GAMING B650EM-E WIFI MATX</part>
+            <part field="3" price="15999">GALAX RTX 5080 1-Click OC 16GB GDDR7</part>
+            <part field="4" price="4499">KLEVV CRAS V RGB DDR5 32GB 6000MHz CL28</part>
+            <part field="5" price="849">Cooler Master ELITE GOLD 1000 1000W ATX3.1</part>
+            <part field="7" price="1229">ADATA LEGEND 860 1TB PCIe Gen4 NVMe</part>
+            <part field="8" price="399">Cooler Master ELITE 490 MATX Case</part>
+            <part field="10" price="649">Cooler Master MasterLiquid ML360 Core Nex</part>
         </parts>
     </build>
     <build id="16">
         <name>$28800 打機直播剪片多媒體應用組合 (RTX 5070 TI)</name>
-        <price>28800</price>
+        <price>31345</price>
         <parts>
-            <part field="1">Intel Core i9-14900K</part>
-            <part field="2">Z790 主板</part>
-            <part field="3">RTX 5070 Ti 16GB</part>
-            <part field="4">64GB DDR5</part>
-            <part field="5">1000W 電源</part>
-            <part field="6">4TB HDD</part>
-            <part field="7">2TB NVMe SSD</part>
-            <part field="8">多媒體機箱</part>
-            <part field="10">360 水冷</part>
-            <part field="11">Wi-Fi 6E</part>
-            <part field="12">27 吋 4K 顯示器</part>
-            <part field="13">直播套裝</part>
+            <part field="1" price="2149">Intel Core Ultra 7 265K 20 Cores</part>
+            <part field="2" price="1620">Asus PRIME B860-PLUS WIFI-CSM ATX</part>
+            <part field="3" price="13699">ASUS ProArt RTX 5070 Ti OC 16GB GDDR7</part>
+            <part field="4" price="9999">G.SKILL Trident Z5 RGB DDR5 64GB 6000MHz</part>
+            <part field="5" price="1200">FSP VITA GM 1000W 80 PLUS Gold</part>
+            <part field="7" price="1449">Crucial P510 1TB PCIe Gen5 NVMe</part>
+            <part field="8" price="449">Cooler Master ELITE 502 ATX - Black</part>
+            <part field="10" price="780">Noctua NH-D15S chromax.black</part>
         </parts>
     </build>
     <build id="17">
         <name>$46700 ASUS PBA 攻頂黑白配 (RTX 5080)</name>
-        <price>46700</price>
+        <price>50174</price>
         <parts>
-            <part field="1">Intel Core Ultra 9 285K</part>
-            <part field="2">Z890 主板</part>
-            <part field="3">RTX 5080 16GB</part>
-            <part field="4">64GB DDR5</part>
-            <part field="5">1200W 電源</part>
-            <part field="7">4TB NVMe SSD</part>
-            <part field="8">ASUS PBA 黑白機箱</part>
-            <part field="10">360 水冷</part>
-            <part field="11">Wi-Fi 7</part>
-            <part field="12">32 吋 4K 顯示器</part>
-            <part field="13">電競滑鼠鍵盤</part>
+            <part field="1" price="6399">AMD Ryzen 9 9950X3D Dual Edition</part>
+            <part field="2" price="6780">ASUS ROG CROSSHAIR X870E DARK HERO ATX</part>
+            <part field="3" price="18999">ASUS ROG Astral RTX 5080 16GB GDDR7 OC</part>
+            <part field="4" price="8599">KLEVV CRAS V RGB DDR5 64GB 6000MHz CL30</part>
+            <part field="5" price="3049">ASUS ROG Thor 1000W Platinum III</part>
+            <part field="7" price="2499">Crucial P510 2TB PCIe Gen5 NVMe</part>
+            <part field="8" price="1299">ASUS TUF Gaming GT502 Horizon White ATX</part>
+            <part field="10" price="2550">ASUS ROG Ryuo IV SLC 360 ARGB - White</part>
         </parts>
     </build>
 </builds>

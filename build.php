@@ -38,11 +38,14 @@ if ($buildsRoot !== null) {
             }
         }
 
+        // The subtotal is summed from the unit prices so the list price always
+        // matches the parts; <price> is only used when no unit price is given.
         $entry = [
             'name' => (string) $buildNode->name,
-            'price' => (int) $buildNode->price,
+            'price' => $partPrices ? array_sum($partPrices) : (int) $buildNode->price,
             'parts' => $parts,
         ];
+
 
         if ($partPrices) {
             $entry['partPrices'] = $partPrices;
@@ -98,6 +101,7 @@ include 'includes/header.php';
                         <?php echo icon_svg('search', 'me-2'); ?>
 
                         <input type="text" class="form-control border-0 shadow-none p-0 bg-transparent" data-part="<?php echo $partIndex; ?>" placeholder="搜索/加入<?php echo $part; ?>">
+                        <a href="#" class="text-muted ms-2 remove-part d-none" data-index="<?php echo $partIndex; ?>" title="移除零件"><?php echo icon_svg('trash'); ?></a>
                     </div>
                 </div>
                 <?php endforeach; ?>
@@ -204,7 +208,7 @@ include 'includes/header.php';
                     <div class="flex-grow-1">
                         <div class="text-dark apply-build" data-build="<?php echo $buildIndex; ?>" style="cursor: pointer;"><?php echo e($build['name']); ?></div>
 
-                        <div class="text-end text-muted small mt-1">2026-09-07</div>
+                        <div class="text-end text-muted small mt-1">2026-11-27</div>
                     </div>
                     <a href="#" class="text-muted mx-3"><?php echo icon_svg('trash'); ?></a>
                     <a href="#" class="text-dark ms-1"><?php echo icon_svg('arrow-right'); ?></a>
@@ -324,16 +328,30 @@ document.addEventListener('DOMContentLoaded', function() {
         if (simpleBuildPrice) simpleBuildPrice.textContent = money(selectedPrice);
     }
 
-    // Remove one part from both modes.
+    // Show the remove icon only on rows that hold a part.
+    function syncPartIcons() {
+        buildInputs.forEach(function (input) {
+            const icon = input.parentNode.querySelector('.remove-part');
+            if (icon) icon.classList.toggle('d-none', !input.value.trim());
+        });
+    }
+
+    // Remove one part from either mode and drop its price from the subtotal.
     document.addEventListener('click', function (event) {
-        const removeButton = event.target.closest('.remove-simple-part');
+        const removeButton = event.target.closest('.remove-simple-part, .remove-part');
         if (!removeButton) return;
         event.preventDefault();
         const index = Number(removeButton.dataset.index);
         if (buildInputs[index]) buildInputs[index].value = '';
-        if (currentBuild && currentBuild.parts) delete currentBuild.parts[index];
+        if (currentBuild) {
+            if (currentBuild.parts) delete currentBuild.parts[index];
+            if (currentBuild.partPrices) delete currentBuild.partPrices[index];
+        }
+        syncPartIcons();
         renderSimpleMode();
+        recalcPrice();
     });
+
 
     if (simpleModeCheckbox) {
         simpleModeCheckbox.addEventListener('change', function() {
@@ -356,6 +374,24 @@ document.addEventListener('DOMContentLoaded', function() {
     const partsPrice = document.getElementById('parts-price');
     const buildCatalog = <?php echo json_encode($buildCatalog, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES); ?>;
 
+    // Unit price of every part already listed in the catalogue, keyed by field and name.
+    const partPriceIndex = {};
+    Object.keys(buildCatalog).forEach(function (key) {
+        const entry = buildCatalog[key];
+        if (!entry.partPrices) return;
+        Object.keys(entry.partPrices).forEach(function (field) {
+            const partName = entry.parts && entry.parts[field];
+            if (!partName) return;
+            partPriceIndex[field + '|' + partName.trim().toLowerCase()] = entry.partPrices[field];
+        });
+    });
+
+    // Look up the unit price of a part by field and name; 0 when it is not listed.
+    // Input: field (number), name (string). Output: price (number).
+    function priceOfPart(field, name) {
+        return partPriceIndex[field + '|' + String(name).trim().toLowerCase()] || 0;
+    }
+
     // Format a number as a dollar amount, e.g. 3463 -> "$3,463".
     // Input: value (number). Output: formatted string.
     function money(value) {
@@ -369,6 +405,22 @@ document.addEventListener('DOMContentLoaded', function() {
         if (totalPrice) {
             totalPrice.textContent = money(selectedPrice + service);
         }
+    }
+
+    // Add up the unit prices of the parts still in the table.
+    // Input: none (reads currentBuild). Output: none (updates the subtotal and the total).
+    function recalcPrice() {
+        if (!currentBuild) return;
+        const prices = currentBuild.partPrices || {};
+        const fields = Object.keys(prices);
+        let sum = 0;
+        fields.forEach(function (field) {
+            sum += Number(prices[field]) || 0;
+        });
+        selectedPrice = fields.length ? sum : (Number(currentBuild.basePrice) || 0);
+        if (partsPrice) partsPrice.textContent = money(selectedPrice);
+        if (simpleBuildPrice) simpleBuildPrice.textContent = money(selectedPrice);
+        updateTotal();
     }
 
     if (checkService) {
@@ -388,7 +440,8 @@ document.addEventListener('DOMContentLoaded', function() {
             // Keep both modes in sync: remember the chosen build for the simple view.
             currentBuild = {
                 parts: Object.assign({}, build.parts),
-                partPrices: build.partPrices ? Object.assign({}, build.partPrices) : null
+                partPrices: build.partPrices ? Object.assign({}, build.partPrices) : {},
+                basePrice: Number(build.price) || 0
             };
 
             buildInputs.forEach(function(input, index) {
@@ -397,11 +450,8 @@ document.addEventListener('DOMContentLoaded', function() {
                     : '';
             });
 
-            selectedPrice = Number(build.price) || 0;
-            if (partsPrice) {
-                partsPrice.textContent = money(selectedPrice);
-            }
-            updateTotal();
+            syncPartIcons();
+            recalcPrice();
             renderSimpleMode();
 
             // Highlight the chosen row only.
@@ -412,6 +462,33 @@ document.addEventListener('DOMContentLoaded', function() {
             if (chosenRow) {
                 chosenRow.classList.add('bg-light');
             }
+        });
+    });
+    // Typing a part in, or clearing the field, prices it and refreshes the total.
+    buildInputs.forEach(function (input) {
+        input.addEventListener('input', function () {
+            if (!currentBuild) return;
+            const index = Number(input.dataset.part);
+            const name = input.value.trim();
+            if (!currentBuild.parts) currentBuild.parts = {};
+            if (!currentBuild.partPrices) currentBuild.partPrices = {};
+
+            if (name) {
+                currentBuild.parts[index] = name;
+                const unit = priceOfPart(index, name);
+                if (unit) {
+                    currentBuild.partPrices[index] = unit;
+                } else {
+                    delete currentBuild.partPrices[index];
+                }
+            } else {
+                delete currentBuild.parts[index];
+                delete currentBuild.partPrices[index];
+            }
+
+            syncPartIcons();
+            recalcPrice();
+            renderSimpleMode();
         });
     });
 
